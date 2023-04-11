@@ -186,7 +186,7 @@ fig = make_subplots(specs=[[{"secondary_y": True}]])
 fig.add_trace(go.Scatter(x=df.index, y=df.actual_demand, name='actual_demand',yaxis="y3",
                          line = dict(color='royalblue', width=3)))
 
-fig.add_trace(go.Scatter(x=df.index, y=df.prediction, name='prediction',yaxis="y3",
+fig.add_trace(go.Scatter(x=df.index, y=df.prediction, name='prediction',visible='legendonly',yaxis="y3",
                          line = dict(color='lime', width=3, dash='dot')))
 
 fig.add_trace(go.Scatter(x=df.index, y=df.prediction_EIA,visible='legendonly',name='prediction_EIA',yaxis="y3",
