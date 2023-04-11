@@ -184,7 +184,7 @@ fig = make_subplots(specs=[[{"secondary_y": True}]])
 
 
 fig.add_trace(go.Scatter(x=df.index, y=df.actual_demand, name='actual_demand',yaxis="y3",
-                         line = dict(color='royalblue', width=5)))
+                         line = dict(color='royalblue', width=3)))
 
 fig.add_trace(go.Scatter(x=df.index, y=df.prediction, name='prediction',yaxis="y3",
                          line = dict(color='lime', width=3, dash='dot')))
@@ -228,7 +228,20 @@ fig.update_layout(template=TEMPLATE)
 
 fig.update_layout(hovermode="x unified")
 
+fig.update_layout(title = 'Past 30 days demand ') 
 
+# Create timezone objects for UTC and EDT
+utc = pytz.utc
+edt = pytz.timezone('US/Eastern')
+
+# Get the current time in UTC
+current_time_utc = datetime.now(utc)
+
+# Convert the current time to EDT
+current_time_edt = current_time_utc.astimezone(edt)
+
+# Print the current date and hour in EDT
+current_time_edt = current_time_edt.strftime('%Y-%m-%d %H')
 
 
 description = 'Duke Energy Carolinas is a subsidiary of Duke Energy, one of the largest electric power holding companies in the United States.\
@@ -246,6 +259,8 @@ app = dash.Dash(
     suppress_callback_exceptions=True
 )
 server = app.server
+
+application = app.server
 
 
 app.layout = html.Div([
@@ -270,7 +285,7 @@ app.layout = html.Div([
         ], justify='center'),
         dbc.Row([
             dbc.Col(
-            html.Div('CURRENT RUN: ' + str(date.today()) + ' ' + str(pd.Timestamp.now().hour) + ':00'), width=9),
+            html.Div(f"CURRENT RUN: {current_time_edt}:00"), width=9),
             dbc.Col(width=2)
         ], justify='center'),
 
